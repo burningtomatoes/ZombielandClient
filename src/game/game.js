@@ -20,6 +20,7 @@ var Game = {
 
         Canvas.init();
         Keyboard.bind();
+        Net.init();
 
         this.images = new ImageLoader();
         this.audio = new AudioLoader();

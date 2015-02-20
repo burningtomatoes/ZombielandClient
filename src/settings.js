@@ -1,3 +1,4 @@
 var Settings = {
-    DebugSkipBootLogo: true
+    DebugSkipBootLogo: true,
+    ServerUri: 'http://localhost:666'
 };

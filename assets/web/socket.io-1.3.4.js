@@ -512,7 +512,7 @@
      */
 
     Manager.prototype.close =
-        Manager.prototype.disconnect = function(){
+        Manager.prototype.resetConnection = function(){
             this.skipReconnect = true;
             this.backoff.reset();
             this.readyState = 'closed';
@@ -659,7 +659,7 @@
         connect: 1,
         connect_error: 1,
         connect_timeout: 1,
-        disconnect: 1,
+        resetConnection: 1,
         error: 1,
         reconnect: 1,
         reconnect_attempt: 1,
@@ -999,7 +999,7 @@
      */
 
     Socket.prototype.close =
-        Socket.prototype.disconnect = function(){
+        Socket.prototype.resetConnection = function(){
             if (this.connected) {
                 debug('performing disconnect (%s)', this.nsp);
                 this.packet({ type: parser.DISCONNECT });
