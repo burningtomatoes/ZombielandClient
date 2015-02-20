@@ -6,15 +6,26 @@ var Net = {
 
     socket: null,
 
+    retryDelay: 0,
+    retryTimeout: null,
+
     init: function () {
         this.connected = false;
         this.connecting = false;
         this.uri = Settings.ServerUri;
+        this.retryDelay = 1000;
 
         this.resetConnection();
     },
 
     resetConnection: function () {
+        if (this.retryDelay <= 10000) {
+            this.retryDelay += chance.integer({
+                min: 500,
+                max: 1000
+            });
+        }
+
         if (this.socket != null) {
             try {
                 this.socket.close();
@@ -25,7 +36,13 @@ var Net = {
 
         this.connecting = false;
         this.connected = false;
-        this.connect();
+
+        if (this.retryTimeout != null) {
+            console.info('[Net] Retrying connection in ' + (this.retryDelay / 1000).toFixed(2).toString() + ' seconds...');
+            window.clearTimeout(this.retryTimeout);
+        }
+
+        this.retryTimeout = window.setTimeout(this.connect.bind(this), this.retryDelay);
     },
 
     connect: function () {
@@ -55,6 +72,7 @@ var Net = {
         this.socket.on('connect', function (e) {
             console.info('[Net] Connection established successfully.');
             this.connected = true;
+            this.retryDelay = 0;
         }.bind(this));
     }
 };
