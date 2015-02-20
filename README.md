@@ -1,6 +1,5 @@
-Bitsmashers
+Zombieland
 =======
-*An epic 8-bit fighting game full of pixelated awesomeness*
 
 About the challenge
 ---
