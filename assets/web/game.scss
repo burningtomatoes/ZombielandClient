@@ -1,9 +1,10 @@
+/// Fonts //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @font-face {
   font-family: 'pixelmix';
   src: url('pixelmix.ttf');
 }
 
-/** Reset & core **/
+/// Reset //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * {
   font-weight: normal !important;
 }
@@ -16,7 +17,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  // Show default cursor to avoid it looking like text is seelctable
   cursor: default;
 }
 html, body {
@@ -34,16 +34,8 @@ img {
   display: none;
 }
 
-/** Canvas config **/
-$width: 640px;
-$height: 400px;
-
-$scale: 2;
-$scaleWidth: $width * $scale;
-$scaleHeight: $height * $scale;
-
+/// Canvas scaling /////////////////////////////////////////////////////////////////////////////////////////////////////
 canvas {
-  /** We want nearest neighbor stretching (pixelated) for all canvas elements **/
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
@@ -52,20 +44,7 @@ canvas {
   -ms-interpolation-mode: nearest-neighbor;
 }
 
-.content {
-  position: fixed;
-  width: $scaleWidth;
-  height: $scaleHeight;
-  top: 50%;
-  left: 50%;
-  z-index: 100;
-  margin-top: -($scaleHeight / 2);
-  margin-left: -($scaleWidth / 2);
-}
-.hud {
-  z-index: 200;
-}
-
+/// UI: Boot Logo //////////////////////////////////////////////////////////////////////////////////////////////////////
 #burningtomato {
   $height: 505px;
   height: $height;

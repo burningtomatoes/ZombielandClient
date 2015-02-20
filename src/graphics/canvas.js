@@ -1,60 +1,57 @@
 var Canvas = {
-    $canvas: null,
+    $element: null,
     canvas: null,
     context: null,
 
-    scale: 1,
+    loop: null,
 
-    screenWidth: 0,
-    screenHeight: 0,
+    upscaleRatio: 2,
 
-    lastRenderTime: null,
-    fps: 0,
-
-    init: function() {
-        console.info('[Canvas] Starting rendering loop...');
-
-        // Find the Canvas element we will be drawing to and retrieve the drawing context
-        this.$canvas = $('#game');
-        this.canvas = this.$canvas[0];
+    init: function () {
+        this.$element = $('#game');
+        this.canvas = this.$element[0];
         this.context = this.canvas.getContext('2d');
 
-        // Try to disable the "smooth" (stretched becomes blurry) scaling on the Canvas element
-        // Instead, we want a "pixelated" effect (nearest neighbor scaling)
         this.canvas.mozImageSmoothingEnabled = false;
         this.canvas.webkitImageSmoothingEnabled = false;
         this.canvas.msImageSmoothingEnabled = false;
         this.canvas.imageSmoothingEnabled = false;
 
-        // Begin the loop
-        var loop = function() {
-            window.requestAnimationFrame(loop);
+        this.resize();
+        $(window).resize(this.resize.bind(this));
 
-            this.context.fillStyle = '#000';
-            this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        console.info('[Canvas] Starting render loop...');
 
-            Game.draw(this.context);
-            Game.update();
+        this.loop = this.renderLoop.bind(this);
+        this.loop();
+    },
 
-            if (Settings.countFps) {
-                if (this.lastRenderTime == null) {
-                    this.lastRenderTime = Date.now();
-                    this.fps = 0;
-                    return;
-                }
+    resize: function () {
+        var $document = $(document);
 
-                var delta = (new Date().getTime() - this.lastRenderTime) / 1000;
-                this.lastRenderTime = Date.now();
-                this.fps = 1 / delta;
-            }
-        }.bind(this);
+        var w = $document.width();
+        var h = $document.height();
 
-        if (Settings.countFps) {
-            window.setInterval(function() {
-                $('#fps').show().text('FPS: ' + this.fps.toFixed(0));
-            }.bind(this), 1000);
-        }
+        this.canvas.width = w / this.upscaleRatio;
+        this.canvas.height = h / this.upscaleRatio;
 
-        loop();
+        this.$element.css('width', w + 'px');
+        this.$element.css('height', h + 'px');
+
+        console.info('[Canvas] Resize complete (' + w + 'px by ' + h + 'px)');
+    },
+
+    renderLoop: function () {
+        window.requestAnimationFrame(this.loop);
+
+        this.clear();
+
+        Game.update();
+        Game.draw(this.context);
+    },
+
+    clear: function () {
+        this.context.fillStyle = '#637FBF';
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 };

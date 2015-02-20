@@ -20,12 +20,16 @@ var Game = {
         Canvas.$canvas.hide();
 
         BootLogo.show(function() {
-
+            $('#game').show();
         });
     },
 
     draw: function (ctx) {
         Camera.update();
+
+        ctx.rect(0, 0, 50, 50);
+        ctx.fillStyle = 'red';
+        ctx.fill();
     },
 
     update: function () {
