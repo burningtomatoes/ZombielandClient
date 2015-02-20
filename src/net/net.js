@@ -15,11 +15,13 @@ var Net = {
         this.uri = Settings.ServerUri;
         this.retryDelay = 1000;
 
-        this.resetConnection();
+        this.resetConnection(true);
     },
 
-    resetConnection: function () {
-        if (this.retryDelay <= 10000) {
+    resetConnection: function (initial) {
+        if (initial) {
+            this.retryDelay = 0;
+        } else if (this.retryDelay <= 10000) {
             this.retryDelay += chance.integer({
                 min: 500,
                 max: 1000
