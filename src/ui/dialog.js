@@ -10,6 +10,12 @@ var Dialog = Class.extend({
         this.$element.append($template.html());
 
         this.$element.appendTo($('#dialogs'));
+
+        this.bind();
+    },
+
+    bind: function () {
+        // ...
     },
 
     show: function () {

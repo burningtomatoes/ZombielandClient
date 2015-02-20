@@ -57,6 +57,7 @@ canvas {
   width: 100%;
   left: 0;
   right: 0;
+  z-index: 999999999;
 
   h1 {
     margin-top: 0;
@@ -110,5 +111,20 @@ canvas {
       position: absolute;
       padding: $pad;
     }
+  }
+}
+
+/// UI: Net status /////////////////////////////////////////////////////////////////////////////////////////////////////
+#net-status {
+  z-index: 1000;
+  position: fixed;
+  bottom: 50px;
+  left: 15px;
+  right: 15px;
+  text-align: center;
+  font-size: 18px;
+
+  img {
+    vertical-align: middle;
   }
 }

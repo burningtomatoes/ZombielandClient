@@ -43,6 +43,15 @@ var Net = {
         }
 
         this.retryTimeout = window.setTimeout(this.connect.bind(this), this.retryDelay);
+
+        this.updateStatus();
+    },
+
+    onConnect: function () {
+        this.connected = true;
+        this.retryDelay = 0;
+
+        this.updateStatus();
     },
 
     connect: function () {
@@ -71,8 +80,21 @@ var Net = {
 
         this.socket.on('connect', function (e) {
             console.info('[Net] Connection established successfully.');
-            this.connected = true;
-            this.retryDelay = 0;
+            this.onConnect();
         }.bind(this));
+
+        this.updateStatus();
+    },
+
+    updateStatus: function () {
+        var $statusSpan = $('#net-status').find('span');
+
+        if (this.connected) {
+            $statusSpan.text('Connected to server');
+        } else if (this.connecting) {
+            $statusSpan.text('Connecting to online services...');
+        } else {
+            $statusSpan.text('Connection failed. Retrying...');
+        }
     }
 };

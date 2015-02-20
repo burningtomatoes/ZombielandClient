@@ -42,7 +42,7 @@ var Game = {
         var onStarted = function () {
             $('#game').fadeIn('fast');
 
-            var loginDialog = new Dialog('dl-login');
+            var loginDialog = new Login();
             loginDialog.show();
         }.bind(this);
 
