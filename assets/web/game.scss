@@ -26,6 +26,7 @@ html, body {
   background: #000;
   color: #fff;
   font-family: 'pixelmix', monospace;
+  overflow: hidden;
 }
 img {
   border: 0;
@@ -42,6 +43,7 @@ canvas {
   image-rendering: -o-crisp-edges;
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
+  z-index: 100;
 }
 
 /// UI: Boot Logo //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,5 +61,54 @@ canvas {
   h1 {
     margin-top: 0;
     margin-bottom: 0;
+  }
+}
+
+/// UI: Dialog Framework ///////////////////////////////////////////////////////////////////////////////////////////////
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+//  background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.65) 100%);
+  background-image: url('../images/pixelator.png');
+  z-index: 200;
+}
+
+#dialogs {
+  z-index: 300;
+
+  .dialog {
+    z-index: 500;
+    position: fixed;
+    top: 50px;
+    width: 600px;
+    left: 50%;
+    margin-left: -300px;
+    background: #3c3c3c;
+    border: 1px solid #666;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    text-align: left;
+    $pad: 15px;
+    padding: $pad;
+    padding-top: 48px + 15px;
+
+    h4 {
+      margin: 0;
+      font-size: 18px;
+      display: block;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: #222;
+      position: absolute;
+      padding: $pad;
+    }
   }
 }

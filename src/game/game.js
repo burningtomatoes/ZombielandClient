@@ -4,7 +4,18 @@ var Game = {
     images: null,
     audio: null,
 
+    titleMode: false,
+
+    initialized: false,
+    started: false,
+
     init: function () {
+        if (this.initialized) {
+            return;
+        }
+
+        this.initialized = true;
+
         console.info('[Game] Initializing Zombieland R' + this.buildCode + '...');
 
         Canvas.init();
@@ -14,14 +25,27 @@ var Game = {
         this.audio = new AudioLoader();
     },
 
+    clear: function () {
+        this.started = false;
+
+        if (Canvas.$element.is(':visible')) {
+            Canvas.$element.stop().fadeOut('fast');
+        }
+    },
+
     start: function () {
+        this.clear();
+
         console.info('[Game] Starting game...');
 
-        Canvas.$canvas.hide();
+        var onStarted = function () {
+            $('#game').fadeIn('fast');
 
-        BootLogo.show(function() {
-            $('#game').show();
-        });
+            var loginDialog = new Dialog('dl-login');
+            loginDialog.show();
+        }.bind(this);
+
+        BootLogo.show(onStarted);
     },
 
     draw: function (ctx) {
