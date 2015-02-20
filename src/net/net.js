@@ -28,6 +28,8 @@ var Net = {
             });
         }
 
+        var wasConnected = !!this.connected;
+
         if (this.socket != null) {
             try {
                 this.socket.close();
@@ -38,6 +40,11 @@ var Net = {
 
         this.connecting = false;
         this.connected = false;
+
+        if (wasConnected) {
+            // If we were connected, restart the entire game
+            Game.start();
+        }
 
         if (this.retryTimeout != null) {
             console.info('[Net] Retrying connection in ' + (this.retryDelay / 1000).toFixed(2).toString() + ' seconds...');

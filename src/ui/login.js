@@ -1,5 +1,7 @@
 var Login = Dialog.extend({
     init: function () {
+        $('.dialog').remove();
+
         this._super('dl-login');
     },
 
