@@ -1,6 +1,4 @@
 var Game = {
-    TITLE_MAP: 'streets_1',
-
     buildCode: 1000,
 
     images: null,
@@ -47,7 +45,7 @@ var Game = {
         this.clear();
 
         BootLogo.show(function () {
-            this.loadMap(this.TITLE_MAP);
+            this.loadMap(Settings.TitleMap);
         }.bind(this));
     },
 
@@ -74,8 +72,10 @@ var Game = {
                         this.showLogin();
                     }
                 } else {
-                    alert('Something went very, very wrong. I was unable to load the next map. The game will now restart.');
-                    location.reload();
+                    if (mapId !== Settings.TitleMap) {
+                        alert('Something went very, very wrong. I was unable to load the next map. The game will now restart.');
+                        location.reload();
+                    }
                 }
             }.bind(this);
         }.bind(this);
