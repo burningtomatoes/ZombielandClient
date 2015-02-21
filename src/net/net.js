@@ -78,7 +78,7 @@ var Net = {
     },
 
     sendData: function (data) {
-        this.socket.emit('data', data);
+        this.socket.emit('data', JSON.stringify(data));
     },
 
     connect: function () {

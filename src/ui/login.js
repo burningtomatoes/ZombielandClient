@@ -46,7 +46,7 @@ var Login = Dialog.extend({
         // Locally hash the user password before we send it over the wire
         // For an important service this would not be sufficient at all
         payload.password = SHA1.calculate(payload.password);
-        payload.op = 'login';
+        payload.op = Opcodes.LOGIN;
 
         // Mark our requested username in the net session for later
         Session.username = payload.username;
