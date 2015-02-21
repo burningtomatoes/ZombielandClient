@@ -9,6 +9,9 @@ var Net = {
     retryDelay: 0,
     retryTimeout: null,
 
+    playerCountReceived: false,
+    playerCount: 0,
+
     init: function () {
         this.connected = false;
         this.connecting = false;
@@ -18,6 +21,12 @@ var Net = {
         this.resetConnection(true);
 
         window.setInterval(this.checkConnection.bind(this), 1000);
+
+        Router.register(Opcodes.PLAYER_COUNT, function (data) {
+            this.playerCountReceived = true;
+            this.playerCount = data.count;
+            this.updateStatus();
+        }.bind(this));
     },
 
     checkConnection: function () {
@@ -54,6 +63,7 @@ var Net = {
 
         this.connecting = false;
         this.connected = false;
+        this.playerCountReceived = false;
 
         if (wasConnected) {
             // If we were connected, restart the entire game
@@ -121,7 +131,7 @@ var Net = {
         var $statusSpan = $('#net-status').find('span');
 
         if (this.connected) {
-            $statusSpan.text('Connected to server');
+            $statusSpan.text('Connected to server' + (this.playerCountReceived ? ' - ' + this.playerCount + ' players online' : ''));
         } else if (this.connecting) {
             $statusSpan.text('Connecting to online services...');
         } else {
