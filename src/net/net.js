@@ -63,6 +63,10 @@ var Net = {
         this.updateStatus();
     },
 
+    sendData: function (data) {
+        this.socket.emit('data', data);
+    },
+
     connect: function () {
         if (this.connected || this.connecting) {
             return;

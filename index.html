@@ -31,6 +31,22 @@
     <div class="ui-template hide" id="dl-login">
         <h4>Welcome!</h4>
         <p>Sign in to your Zombieland account, or create one right now to dive in to the action.</p>
+
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" maxlength="16" class="form-control" />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" maxlength="16" class="form-control" />
+
+            <p class="result">If your username does not yet exist, we'll create a new account for you with the password you've entered.</p>
+
+            <button type="submit" class="form-control">Continue</button>
+
+        </form>
+
+        <div class="clearfix"></div>
+
     </div>
 
     <!-- JS -->

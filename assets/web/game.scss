@@ -114,6 +114,48 @@ canvas {
   }
 }
 
+/// UI: Forms //////////////////////////////////////////////////////////////////////////////////////////////////////////
+input.form-control, textarea.form-control {
+  display: block;
+  width: 100%;
+  border: 1px solid #666;
+  color: #fff;
+  font-family: 'Pixelmix', monospace;
+  background: #555;
+  background: linear-gradient(to bottom, rgb(44, 45, 44) 0%,rgba(14,14,14,1) 100%);
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 12px;
+  cursor: text;
+}
+button.form-control {
+  display: block;
+  width: 100%;
+  opacity: 0.90;
+  border: 1px solid #666;
+  color: #fff;
+  font-family: 'Pixelmix', monospace;
+  background: #555;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 0;
+
+  &[disabled] {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+
+  &:hover {
+    opacity: 1.0;
+  }
+  &:active {
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+.error {
+  color: red;
+}
+
 /// UI: Net status /////////////////////////////////////////////////////////////////////////////////////////////////////
 #net-status {
   z-index: 1000;
