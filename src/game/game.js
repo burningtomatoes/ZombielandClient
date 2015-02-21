@@ -29,6 +29,8 @@ var Game = {
     clear: function () {
         this.started = false;
 
+        Session.setStateObject(null);
+
         if (Canvas.$element.is(':visible')) {
             Canvas.$element.stop().fadeOut('fast');
         }

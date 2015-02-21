@@ -56,6 +56,11 @@ var Login = Dialog.extend({
             this.showError(data.msg);
         }.bind(this));
 
+        Router.register(Opcodes.LOGIN_COMPLETE, function (data) {
+            Session.setStateObject(data.user);
+            this.hide();
+        }.bind(this));
+
         // Send login / register request to the server, and await a response...
         Net.sendData(payload);
     },

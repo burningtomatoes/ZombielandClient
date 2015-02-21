@@ -19,18 +19,19 @@ var Dialog = Class.extend({
     },
 
     show: function () {
+        this.init();
         this.$element.slideDown();
         this.checkOverlay();
     },
 
     hide: function () {
-        this.$element.slideUp();
+        this.$element.remove();
         this.checkOverlay();
     },
 
     checkOverlay: function () {
         var $overlay = $('#overlay');
-        var openDialogs = $('.dialog').length;
+        var openDialogs = $('.dialog:visible').length;
 
         if (openDialogs == 0 && $overlay.is(':visible')) {
             $overlay.fadeOut('fast');
