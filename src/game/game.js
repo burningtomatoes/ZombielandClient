@@ -1,13 +1,18 @@
 var Game = {
+    TITLE_MAP: 'streets_1',
+
     buildCode: 1000,
 
     images: null,
     audio: null,
+    maps: null,
 
-    titleMode: false,
+    map: null,
 
     initialized: false,
     started: false,
+
+    $game: null,
 
     init: function () {
         if (this.initialized) {
@@ -24,42 +29,89 @@ var Game = {
 
         this.images = new ImageLoader();
         this.audio = new AudioLoader();
+        this.maps = new MapLoader();
+
+        this.$game = $('#game');
     },
 
     clear: function () {
+        this.$game.hide();
         this.started = false;
+        this.loading = false;
+        this.map = null;
 
         Session.setStateObject(null);
-
-        if (Canvas.$element.is(':visible')) {
-            Canvas.$element.stop().fadeOut('fast');
-        }
     },
 
     start: function () {
         this.clear();
 
-        console.info('[Game] Starting game...');
+        BootLogo.show(function () {
+            this.loadMap(this.TITLE_MAP);
+        }.bind(this));
+    },
 
-        var onStarted = function () {
-            $('#game').fadeIn('fast');
+    loading: false,
 
-            var loginDialog = new Login();
-            loginDialog.show();
+    loadMap: function (mapId) {
+        if (this.loading) {
+            return;
+        }
+
+        this.loading = true;
+
+        console.info('[Map] Loading map ' + mapId + '...');
+
+        var beginLoad = function () {
+            this.map = this.maps.load(mapId + '.json');
+            this.map.onLoadComplete = function (success) {
+                if (success) {
+                    console.info('[Map] Map loaded successfully.');
+                    this.$game.fadeIn(500);
+                    this.loading = false;
+
+                    if (!Session.isLoggedIn()) {
+                        this.showLogin();
+                    }
+                } else {
+                    alert('Something went very, very wrong. I was unable to load the next map. The game will now restart.');
+                    location.reload();
+                }
+            }.bind(this);
         }.bind(this);
 
-        BootLogo.show(onStarted);
+        if (this.$game.is(':visible')) {
+            this.$game.fadeOut(500, beginLoad);
+        } else {
+            beginLoad();
+        }
+    },
+
+    showLogin: function () {
+        var loginDialog = new Login();
+        loginDialog.show();
     },
 
     draw: function (ctx) {
-        Camera.update();
+        if (!this.initialized) {
+            return;
+        }
 
-        ctx.rect(0, 0, 50, 50);
-        ctx.fillStyle = 'red';
-        ctx.fill();
+        if (!this.loading && this.map != null) {
+            this.map.draw(ctx);
+        }
     },
 
     update: function () {
+        if (!this.initialized) {
+            return;
+        }
+
+        Camera.update();
         Keyboard.update();
+
+        if (!this.loading && this.map != null) {
+            this.map.update();
+        }
     }
 };
