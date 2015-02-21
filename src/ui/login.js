@@ -35,8 +35,10 @@ var Login = Dialog.extend({
         }
 
         var payload = this.$form.serializeObject();
+        payload.username = payload.username.trim();
+        payload.password = payload.password.trim();
 
-        if (payload.username == null || payload.password == null || payload.username.length <= 0 || payload.username.length >= 32) {
+        if (payload.username == null || payload.password == null || payload.username.length <= 0 || payload.username.length >= 32 || payload.password.length <= 0) {
             this.showError('Enter both a username and a password.');
             return;
         }
