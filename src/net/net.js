@@ -110,6 +110,10 @@ var Net = {
             this.onConnect();
         }.bind(this));
 
+        this.socket.on('data', function (data) {
+            Router.route(data);
+        });
+
         this.updateStatus();
     },
 

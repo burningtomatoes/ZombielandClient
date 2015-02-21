@@ -51,6 +51,11 @@ var Login = Dialog.extend({
         // Mark our requested username in the net session for later
         Session.username = payload.username;
 
+        // Prepare for server response
+        Router.register(Opcodes.LOGIN_RESULT, function (data) {
+            this.showError(data.msg);
+        }.bind(this));
+
         // Send login / register request to the server, and await a response...
         Net.sendData(payload);
     },
