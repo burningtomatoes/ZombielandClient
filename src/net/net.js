@@ -16,6 +16,20 @@ var Net = {
         this.retryDelay = 1000;
 
         this.resetConnection(true);
+
+        window.setInterval(this.checkConnection.bind(this), 1000);
+    },
+
+    checkConnection: function () {
+        if (this.socket == null) {
+            return;
+        }
+
+        if (!this.socket.connected && this.connected) {
+            console.warn('[Net] Connection is dead, but was not reported by the client. Forcing connection reset.');
+            this.resetConnection();
+            return;
+        }
     },
 
     resetConnection: function (initial) {
