@@ -137,6 +137,16 @@ var Map = Class.extend({
                 entity.draw(ctx);
             }
         }
+
+        this.drawFog(ctx);
+    },
+
+    drawFog: function (ctx) {
+        var grd = ctx.createRadialGradient(Canvas.canvas.width / 2, Canvas.canvas.height / 2, Canvas.canvas.height / 4, Canvas.canvas.width / 2, Canvas.canvas.height / 2, Canvas.canvas.height / 2);
+        grd.addColorStop(0, "rgba(0, 0, 0, 0)");
+        grd.addColorStop(1, "rgba(0, 0, 0, 0.2)");
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
     },
 
     drawBackground: function (ctx) {
