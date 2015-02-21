@@ -1,9 +1,13 @@
 var BootLogo = {
+    shown: false,
+
     show: function(cb) {
-        if (Settings.DebugSkipBootLogo) {
+        if (Settings.DebugSkipBootLogo || this.shown) {
             cb();
             return;
         }
+
+        this.shown = true;
 
         AudioOut.playSfx('burningtomato.wav');
 
