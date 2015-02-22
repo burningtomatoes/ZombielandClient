@@ -16,12 +16,24 @@ var Entity = Class.extend({
     width: 16,
     rotation: 0,
 
+    moving: false,
+    running: false,
+
+    speedWalking: 2,
+    speedRunning: 4,
+    speedRotate: 5,
+
     init: function () {
 
     },
 
     update: function () {
+        if (this.moving) {
+            var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
 
+            this.posX += mvSpeed * Math.cos(this.rotation * Math.PI / 180);
+            this.posY += mvSpeed * Math.sin(this.rotation * Math.PI / 180);
+        }
     },
 
     draw: function (ctx) {
