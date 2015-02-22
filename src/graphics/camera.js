@@ -5,17 +5,20 @@ var Camera = {
     applyX: 0,
     applyY: 0,
 
+    yLocked: false,
+    xLocked: false,
+
     isRumbling: false,
     rumbleOffset: 0,
     rumbleIntensity: 1,
     rumbleDuration: 0,
 
     translateX: function(x) {
-        return Math.round(x + this.applyX + this.rumbleOffset);
+        return Math.round(x + this.applyX);
     },
 
     translateY: function(y) {
-        return Math.round(y + this.applyY + this.rumbleOffset);
+        return Math.round(y + this.applyY);
     },
 
     translate: function(x, y) {
@@ -32,13 +35,19 @@ var Camera = {
 
     trackingEntity: null,
 
-    centerToMap: function() {
-        if (Game.stage == null) {
-            return;
-        }
+    getScreenWidth: function () {
+        return Canvas.canvas.width;
+    },
 
-        this.x = Canvas.canvas.width / 2 - Game.stage.width / 2;
-        this.y = Canvas.canvas.height / 2 - Game.stage.height / 2;
+    getScreenHeight: function () {
+        return Canvas.canvas.height;
+    },
+
+    centerToMap: function() {
+        this.x = this.getScreenWidth() / 2 - Game.map.widthPx / 2;
+        this.y = this.getScreenHeight() / 2 - Game.map.heightPx / 2;
+        this.xLocked = (this.getScreenWidth() > Game.map.widthPx);
+        this.yLocked = (this.getScreenHeight() > Game.map.heightPx);
         this.trackingEntity = null;
     },
 
@@ -47,6 +56,8 @@ var Camera = {
     followEntity: function(e, hard) {
         this.trackingEntity = e;
         this.trackHard = !!hard;
+        this.xLocked = (this.getScreenWidth() > Game.map.widthPx);
+        this.yLocked = (this.getScreenHeight() > Game.map.heightPx);
     },
 
     rumble: function(duration, intensity) {
@@ -70,30 +81,18 @@ var Camera = {
                 this.rumbleOffset = 0;
             }
         }
-        
+
         if (this.trackingEntity != null) {
-            this.x = Canvas.canvas.width / 2 - this.trackingEntity.posX - this.trackingEntity.width / 2;
-            this.y = Canvas.canvas.height / 2 - this.trackingEntity.posY - this.trackingEntity.height / 2;
+            if (!this.xLocked) {
+                var desiredX = this.getScreenWidth() / 2 - this.trackingEntity.posX - this.trackingEntity.width / 2;
+                var maxXSpace = Game.map.widthPx - this.getScreenWidth();
+                this.x = MathHelper.clamp(desiredX, -maxXSpace, 0);
+            }
 
-            var xMargin = 96;
-            var yMargin = 32;
-
-            var minX = -xMargin;
-            if (this.x < minX) {
-                this.x = minX;
-            }
-            var minY = -yMargin;
-            if (this.y < minY) {
-                this.y = minY;
-            }
-            yMargin = 96;
-            var maxY = (Canvas.canvas.height + yMargin) - Canvas.canvas.height;
-            if (this.y > maxY) {
-                this.y = maxY;
-            }
-            var maxX = (Canvas.canvas.width + xMargin) - Canvas.canvas.width;
-            if (this.x > maxX) {
-                this.x = maxX;
+            if (!this.yLocked) {
+                var desiredY = this.getScreenHeight() / 2 - this.trackingEntity.posY - this.trackingEntity.height / 2;
+                var maxYSpace = Game.map.heightPx - this.getScreenHeight();
+                this.y = MathHelper.clamp(desiredY, -maxYSpace, 0);
             }
         }
 
