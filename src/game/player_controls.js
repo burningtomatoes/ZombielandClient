@@ -1,4 +1,9 @@
 var PlayerControls = {
+    frameCountdown: 0,
+    needsUpdate: false,
+
+    FRAMES_PER_UPDATE: 5,
+
     update: function () {
         var player = Session.getEntity();
 
@@ -13,15 +18,40 @@ var PlayerControls = {
 
         if (keyLeft) {
             player.rotation -= player.speedRotate;
+            this.needsUpdate = true;
         }
         if (keyRight) {
             player.rotation += player.speedRotate;
+            this.needsUpdate = true;
         }
 
         if (keyForward) {
-            player.moving = true;
+            if (!player.moving) {
+                player.moving = true;
+                this.needsUpdate = true;
+            }
         } else {
-            player.moving = false;
+            if (player.moving) {
+                player.moving = false;
+                this.needsUpdate = true;
+            }
+        }
+
+        if (this.frameCountdown > 0) {
+            // Do not send an update in this frame, only every 2 frames max
+            this.frameCountdown--;
+        } else if (this.needsUpdate) {
+            // Need to send an update, something changed in our state in this or the last frame
+            Net.sendData({
+                op: Opcodes.CLIENT_MOVE_UPDATE,
+                i: player.id,
+                x: player.posX,
+                y: player.posY,
+                m: player.moving ? 1 : 0
+            });
+
+            this.needsUpdate = false;
+            this.frameCountdown = this.FRAMES_PER_UPDATE;
         }
     }
 };

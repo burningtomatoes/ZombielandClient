@@ -50,7 +50,6 @@ var Sync = {
             return;
         }
 
-        console.warn('dbg: add entity');
         this.configureEntity(null, data.e);
     },
 
@@ -67,7 +66,6 @@ var Sync = {
         var entity = Game.map.getEntityById(data.i);
 
         if (entity != null) {
-            console.warn('dbg: rmv entity');
             Game.map.remove(entity);
         }
     },
@@ -87,7 +85,5 @@ var Sync = {
         for (var i = 0; i < data.e.length; i++) {
             this.configureEntity(null, data.e[i]);
         }
-
-        console.warn('dbg: sync entire entity list @ new length ' + Game.map.entities.length);
     }
 };
