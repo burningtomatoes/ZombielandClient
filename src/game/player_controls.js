@@ -25,6 +25,14 @@ var PlayerControls = {
             this.needsUpdate = true;
         }
 
+        if (player.rotation < 0) {
+            player.rotation += 360;
+        }
+
+        if (player.rotation > 360) {
+            player.rotation -= 360;
+        }
+
         if (keyForward) {
             if (!player.moving) {
                 player.moving = true;

@@ -28,6 +28,14 @@ var Entity = Class.extend({
     },
 
     update: function () {
+        if (this.rotation < 0) {
+            this.rotation += 360;
+        }
+
+        if (this.rotation > 360) {
+            this.rotation -= 360;
+        }
+
         if (this.moving) {
             var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
 
