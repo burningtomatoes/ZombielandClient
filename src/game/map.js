@@ -41,7 +41,6 @@ var Map = Class.extend({
     add: function (entity) {
         if (this.entities.indexOf(entity) == -1) {
             entity.map = this;
-            entity.id = this.idGen++;
 
             this.entities.push(entity);
 
