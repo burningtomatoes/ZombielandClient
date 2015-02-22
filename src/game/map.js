@@ -47,6 +47,7 @@ var Map = Class.extend({
 
             if (entity.isLocalPlayer()) {
                 this.player = entity;
+                Camera.followEntity(this.player, true);
             }
         }
     },
@@ -63,6 +64,7 @@ var Map = Class.extend({
 
         if (this.player == entity) {
             this.player = null;
+            Camera.followEntity(null, false);
         }
 
         return false;
