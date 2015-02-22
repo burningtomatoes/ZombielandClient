@@ -27,6 +27,8 @@ var Net = {
             this.playerCount = data.count;
             this.updateStatus();
         }.bind(this));
+
+        Sync.init();
     },
 
     checkConnection: function () {

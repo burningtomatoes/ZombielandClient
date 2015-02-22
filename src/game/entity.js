@@ -4,7 +4,7 @@ var Entity = Class.extend({
     isPlayer: false,
 
     causesCollision: true,
-    recievesCollision: false,
+    receivesCollision: false,
 
     id: 0,
 
