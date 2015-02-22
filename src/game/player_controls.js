@@ -53,8 +53,8 @@ var PlayerControls = {
             Net.sendData({
                 op: Opcodes.CLIENT_MOVE_UPDATE,
                 i: player.id,
-                x: player.posX,
-                y: player.posY,
+                x: Math.round(player.posX),
+                y: Math.round(player.posY),
                 m: player.moving ? 1 : 0
             });
 
