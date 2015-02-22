@@ -87,6 +87,13 @@ var Net = {
         this.retryDelay = 0;
 
         this.updateStatus();
+
+        if (Settings.DebugQuickLogin) {
+            var $form = $('.dialog form.login').first();
+            $form.find('[name="username"]').val('debug');
+            $form.find('[name="password"]').val('debug');
+            $form.submit();
+        }
     },
 
     sendData: function (data) {
