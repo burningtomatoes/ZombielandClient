@@ -55,6 +55,7 @@ var PlayerControls = {
                 i: player.id,
                 x: Math.round(player.posX),
                 y: Math.round(player.posY),
+                r: player.rotation,
                 m: player.moving ? 1 : 0
             });
 
