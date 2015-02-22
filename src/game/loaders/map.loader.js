@@ -21,8 +21,8 @@ var MapLoader = Loader.extend({
 
             map.widthTiles = data.width;
             map.heightTiles = data.height;
-            map.width = data.width * Settings.TileSize;
-            map.height = data.height * Settings.TileSize;
+            map.widthPx = data.width * Settings.TileSize;
+            map.heightPx = data.height * Settings.TileSize;
 
             var props = map.data.properties;
 
