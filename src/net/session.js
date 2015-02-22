@@ -20,5 +20,9 @@ var Session = {
 
     isLoggedIn: function () {
         return this.authed && this.userId != null && this.userId >= 0;
+    },
+
+    getEntity: function () {
+        return Game.map == null ? null : Game.map.getEntityByUid(this.userId);
     }
 };

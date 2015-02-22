@@ -42,7 +42,12 @@ var Map = Class.extend({
         if (this.entities.indexOf(entity) == -1) {
             entity.map = this;
             entity.id = this.idGen++;
+
             this.entities.push(entity);
+
+            if (entity.isLocalPlayer()) {
+                this.player = entity;
+            }
         }
     },
 
@@ -54,6 +59,10 @@ var Map = Class.extend({
         if (this.toRemove.indexOf(entity) === -1) {
             this.toRemove.push(entity);
             return true;
+        }
+
+        if (this.player == entity) {
+            this.player = null;
         }
 
         return false;
@@ -71,13 +80,16 @@ var Map = Class.extend({
         return null;
     },
 
-    setPlayer: function (entity) {
-        if (this.getEntityById(entity.id) == null) {
-            // call .add() if this entity does not yet exist on the map
-            this.add(entity);
+    getEntityByUid: function (uid) {
+        for (var i = 0; i < this.entities.length; i++) {
+            var entity = this.entities[i];
+
+            if (entity.remoteUid === uid) {
+                return entity;
+            }
         }
 
-        this.player = entity;
+        return null;
     },
 
     update: function () {
@@ -91,6 +103,8 @@ var Map = Class.extend({
                 entity.update();
             }
         }
+
+        PlayerControls.update();
     },
 
     processRemovals: function () {

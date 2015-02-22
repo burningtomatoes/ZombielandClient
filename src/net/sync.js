@@ -27,6 +27,7 @@ var Sync = {
         }
 
         e.id = remoteData.id;
+        e.remoteUid = remoteData.uid;
         e.isPlayer = remoteData.ip == 1;
         e.isCharacter = e.isPlayer;
         e.causesCollision = true;
