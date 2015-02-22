@@ -23,6 +23,13 @@ var Entity = Class.extend({
     },
 
     draw: function (ctx) {
+        var destX = Camera.translateX(this.posX);
+        var destY = Camera.translateY(this.posY);
 
+        ctx.beginPath();
+        ctx.rect(destX, destY, Settings.TileSize, Settings.TileSize);
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+        ctx.closePath();
     }
 });
