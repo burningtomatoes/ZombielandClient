@@ -2,5 +2,9 @@ var Opcodes = {
     LOGIN: 1,
     LOGIN_RESULT: 2,
     LOGIN_COMPLETE: 3,
-    PLAYER_COUNT: 4
+    GLOB_PLAYER_COUNT: 4,
+    PLAYER_LIST: 5,
+    PLAYER_JOIN: 6,
+    PLAYER_REMOVE: 7,
+    PLAYER_SET_POS: 8
 };

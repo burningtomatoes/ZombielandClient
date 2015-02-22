@@ -22,7 +22,7 @@ var Net = {
 
         window.setInterval(this.checkConnection.bind(this), 1000);
 
-        Router.register(Opcodes.PLAYER_COUNT, function (data) {
+        Router.register(Opcodes.GLOB_PLAYER_COUNT, function (data) {
             this.playerCountReceived = true;
             this.playerCount = data.count;
             this.updateStatus();
