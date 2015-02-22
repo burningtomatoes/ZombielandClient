@@ -36,7 +36,7 @@ var Sync = {
         e.posY = remoteData.pY;
 
         if (isNew) {
-            Game.map.entities.push(e);
+            Game.map.add(e);
         }
     },
 
