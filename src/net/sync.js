@@ -9,7 +9,30 @@ var Sync = {
         Router.register(Opcodes.ENTITY_ADD, this.handleEntityAdd.bind(this));
         Router.register(Opcodes.ENTITY_LIST, this.handleEntityList.bind(this));
         Router.register(Opcodes.ENTITY_REMOVE, this.handleEntityRemove.bind(this));
+        Router.register(Opcodes.SERVER_MOVE_UPDATE, this.handleEntityMove.bind(this));
         //Router.register(Opcodes.ENTITY_TELEPORT, this.handleEntityTeleport.bind(this));
+    },
+
+    /**
+     * Reads and applies a movement update from the server.
+     *
+     * @param data Remote payload
+     */
+    handleEntityMove: function (data) {
+        if (Game.map == null || Game.loading) {
+            return;
+        }
+
+        var entity = Game.map.getEntityById(data.i);
+
+        if (entity == null) {
+            return;
+        }
+
+        entity.rotation = data.r;
+        entity.posX = data.x;
+        entity.posY = data.y;
+        entity.moving = data.m;
     },
 
     /**
