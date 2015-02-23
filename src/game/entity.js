@@ -105,8 +105,17 @@ var Entity = Class.extend({
             ctx.drawImage(this.imgHead, 0, 0, this.widthHead, this.heightHead, 6, Math.round((this.height / 2) - (this.heightHead / 2) - (this.headBob / 2)), this.widthHead, this.heightHead);
         }
 
-
         ctx.restore();
+
+        if (Settings.drawCollisions) {
+            var r = this.getRect();
+
+            ctx.beginPath();
+            ctx.rect(Camera.translateX(r.left), Camera.translateY(r.top), r.width, r.height);
+            ctx.strokeStyle = "#FFCCAA";
+            ctx.stroke();
+            ctx.closePath();
+        }
 
         // Step 4: Entity name
         ctx.font="8px Pixelmix";
@@ -122,5 +131,70 @@ var Entity = Class.extend({
 
     isLocalPlayer: function () {
         return this.isPlayer && Session.userId == this.remoteUid;
-    }
+    },
+
+    getRect: function (overrideX, overrideY) {
+        var x = this.posX;
+        var y = this.posY;
+
+        if (overrideX != null) {
+            x = overrideX;
+        }
+
+        if (overrideY != null) {
+            y = overrideY;
+        }
+
+        var w = 32;
+        var h = 32;
+
+        var margin = 6;
+
+        var rect = {
+            left: x,
+            top: y + 6,
+            height: h - margin,
+            width: w - margin
+        };
+        rect.bottom = rect.top + rect.height;
+        rect.right = rect.left + rect.width;
+        // TODO Specific collision masks for left/right directions?
+        return rect;
+    },
+
+    canMoveLeft: function () {
+        if (!this.clipping) {
+            return true;
+        }
+        var projectedPosX = this.posX - this.movementSpeed;
+        var projectedRect = this.getRect(projectedPosX, null);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
+    },
+
+    canMoveRight: function () {
+        if (!this.clipping) {
+            return true;
+        }
+        var projectedPosX = this.posX + this.movementSpeed;
+        var projectedRect = this.getRect(projectedPosX, null);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
+    },
+
+    canMoveUp: function () {
+        if (!this.clipping) {
+            return true;
+        }
+        var projectedPosY = this.posY - this.movementSpeed;
+        var projectedRect = this.getRect(null, projectedPosY);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
+    },
+
+    canMoveDown: function () {
+        if (!this.clipping) {
+            return true;
+        }
+        var projectedPosY = this.posY + this.movementSpeed;
+        var projectedRect = this.getRect(null, projectedPosY);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
+    },
 });
