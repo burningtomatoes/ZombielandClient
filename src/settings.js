@@ -5,6 +5,6 @@ var Settings = {
     TileSize: 32,
     // Debug toggles
     DebugSkipBootLogo: true,
-    drawCollisions: true,
+    drawCollisions: false,
     DebugQuickLogin: true
 };

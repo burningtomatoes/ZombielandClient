@@ -38,14 +38,16 @@ var PlayerControls = {
         }
 
         if (keyForward) {
-            if (!player.moving) {
+            if (!player.moving && player.canMoveInCurrentDirection()) {
                 player.moving = true;
                 this.needsUpdate = true;
+                this.frameCountdown = 0; // force sync b/c of state change
             }
         } else {
             if (player.moving) {
                 player.moving = false;
                 this.needsUpdate = true;
+                this.frameCountdown = 0; // force sync b/c of state change
             }
         }
 
