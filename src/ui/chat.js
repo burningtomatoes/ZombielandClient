@@ -73,6 +73,7 @@ var Chat = {
         if (data.name != null && data.name.length > 0) {
             var $nameSpan = $('<span />')
                 .addClass('name')
+                .addClass(data.name === Session.username ? 'self' : 'other')
                 .text(data.name + ': ')
                 .appendTo($message);
         }

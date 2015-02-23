@@ -165,8 +165,16 @@ var Entity = Class.extend({
 
         ctx.fillStyle = '#000';
         ctx.fillText(this.name, destX + 1, destY + 1);
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = this.getNameColor();
         ctx.fillText(this.name, destX, destY);
+    },
+
+    getNameColor: function () {
+        if (this.isLocalPlayer()) {
+            return '#fff';
+        }
+
+        return 'yellow';
     },
 
     isLocalPlayer: function () {
