@@ -71,6 +71,10 @@
          "height":32,
          "name":"Blockmap",
          "opacity":1,
+         "properties":
+            {
+             "blocked":"1"
+            },
          "type":"tilelayer",
          "visible":false,
          "width":32,

@@ -21,6 +21,8 @@ var Map = Class.extend({
     tileset: null,
     tilesPerRow: 0,
 
+    blockedRects: [],
+
     init: function (id) {
         this.id = id;
         this.data = { };
@@ -96,6 +98,35 @@ var Map = Class.extend({
         }
 
         return null;
+    },
+
+    isRectBlocked: function (ourRect,  ignoreEntity) {
+        var blockedRectsLength = this.blockedRects.length;
+
+        for (var i = 0; i < blockedRectsLength; i++) {
+            if (Utils.rectIntersects(ourRect, this.blockedRects[i])) {
+                return true;
+            }
+        }
+
+        var entitiesLength = this.entities.length;
+
+        for (var k = 0; k < entitiesLength; k++) {
+            var entity = this.entities[k];
+
+            if (!entity.causesCollision || entity === ignoreEntity) {
+                continue;
+            }
+
+            var theirRect = entity.getRect();
+
+            if (Utils.rectIntersects(ourRect, theirRect)) {
+                console.log(ignoreEntity + ' collides ' + entity);
+                return true;
+            }
+        }
+
+        return false;
     },
 
     update: function () {

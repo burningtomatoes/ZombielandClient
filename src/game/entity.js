@@ -51,10 +51,15 @@ var Entity = Class.extend({
         }
 
         if (this.moving) {
-            var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
+            if (this.isLocalPlayer() && !this.canMoveInCurrentDirection()) {
+                this.moving = false;
+                PlayerControls.needsUpdate = true;
+            } else {
+                var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
 
-            this.posX += mvSpeed * Math.cos(this.rotation * Math.PI / 180);
-            this.posY += mvSpeed * Math.sin(this.rotation * Math.PI / 180);
+                this.posX += mvSpeed * Math.cos(this.rotation * Math.PI / 180);
+                this.posY += mvSpeed * Math.sin(this.rotation * Math.PI / 180);
+            }
         }
 
         if (this.moving) {
@@ -110,9 +115,22 @@ var Entity = Class.extend({
         if (Settings.drawCollisions) {
             var r = this.getRect();
 
+            // Debug boundary
             ctx.beginPath();
             ctx.rect(Camera.translateX(r.left), Camera.translateY(r.top), r.width, r.height);
             ctx.strokeStyle = "#FFCCAA";
+            ctx.stroke();
+            ctx.closePath();
+
+            // Debug projected pos
+            var mvSpeed = this.speedWalking;
+            var projectedX = this.posX + (mvSpeed * Math.cos(this.rotation * Math.PI / 180));
+            var projectedY = this.posY + (mvSpeed * Math.sin(this.rotation * Math.PI / 180));
+            var r = this.getRect(projectedX, projectedY);
+
+            ctx.beginPath();
+            ctx.rect(Camera.translateX(r.left), Camera.translateY(r.top), r.width, r.height);
+            ctx.strokeStyle = "#AACCFF";
             ctx.stroke();
             ctx.closePath();
         }
@@ -162,39 +180,21 @@ var Entity = Class.extend({
         return rect;
     },
 
-    canMoveLeft: function () {
-        if (!this.clipping) {
-            return true;
-        }
-        var projectedPosX = this.posX - this.movementSpeed;
-        var projectedRect = this.getRect(projectedPosX, null);
-        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
-    },
+    canMoveInCurrentDirection: function () {
+        var mvSpeed = this.speedWalking;
+        var projectedX = this.posX + (mvSpeed * Math.cos(this.rotation * Math.PI / 180));
+        var projectedY = this.posY + (mvSpeed * Math.sin(this.rotation * Math.PI / 180));
 
-    canMoveRight: function () {
-        if (!this.clipping) {
-            return true;
+        if (projectedX < 0 || projectedY < 0 || projectedX > this.map.widthPx || projectedY > this.map.heightPx) {
+            return false;
         }
-        var projectedPosX = this.posX + this.movementSpeed;
-        var projectedRect = this.getRect(projectedPosX, null);
-        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
-    },
 
-    canMoveUp: function () {
-        if (!this.clipping) {
-            return true;
-        }
-        var projectedPosY = this.posY - this.movementSpeed;
-        var projectedRect = this.getRect(null, projectedPosY);
-        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
-    },
+        var projectedRect = this.getRect(projectedX, projectedY);
 
-    canMoveDown: function () {
-        if (!this.clipping) {
-            return true;
+        if (this.map.isRectBlocked(projectedRect, this)) {
+            return false;
         }
-        var projectedPosY = this.posY + this.movementSpeed;
-        var projectedRect = this.getRect(null, projectedPosY);
-        return !Game.map.isRectBlocked(projectedRect, this.isNpc, this);
-    },
+
+        return true;
+    }
 });
