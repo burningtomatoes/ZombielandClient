@@ -29,10 +29,10 @@ var Sync = {
             return;
         }
 
-        entity.rotation = data.r;
         entity.posX = data.x;
         entity.posY = data.y;
         entity.moving = data.m;
+        entity.targetRotation = data.r;
     },
 
     /**

@@ -21,6 +21,7 @@ var Entity = Class.extend({
     heightHead: 23,
 
     rotation: 0,
+    targetRotation: 0,
 
     moving: false,
     running: false,
@@ -50,6 +51,10 @@ var Entity = Class.extend({
             this.rotation -= 360;
         }
 
+        if (!this.isLocalPlayer() && this.rotation != this.targetRotation) {
+            this.rotation = MathHelper.lerpAngle(this.rotation, this.targetRotation, 0.2);
+        }
+
         if (this.moving) {
             if (this.isLocalPlayer() && !this.canMoveInCurrentDirection()) {
                 this.moving = false;
@@ -57,8 +62,8 @@ var Entity = Class.extend({
             } else {
                 var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
 
-                this.posX += mvSpeed * Math.cos(this.rotation * Math.PI / 180);
-                this.posY += mvSpeed * Math.sin(this.rotation * Math.PI / 180);
+                this.posX += mvSpeed * Math.cos(this.targetRotation * Math.PI / 180);
+                this.posY += mvSpeed * Math.sin(this.targetRotation * Math.PI / 180);
             }
         }
 
@@ -124,8 +129,8 @@ var Entity = Class.extend({
 
             // Debug projected pos
             var mvSpeed = this.speedWalking;
-            var projectedX = this.posX + (mvSpeed * Math.cos(this.rotation * Math.PI / 180));
-            var projectedY = this.posY + (mvSpeed * Math.sin(this.rotation * Math.PI / 180));
+            var projectedX = this.posX + (mvSpeed * Math.cos(this.targetRotation * Math.PI / 180));
+            var projectedY = this.posY + (mvSpeed * Math.sin(this.targetRotation * Math.PI / 180));
             var r = this.getRect(projectedX, projectedY);
 
             ctx.beginPath();
@@ -182,8 +187,8 @@ var Entity = Class.extend({
 
     canMoveInCurrentDirection: function () {
         var mvSpeed = this.speedWalking;
-        var projectedX = this.posX + (mvSpeed * Math.cos(this.rotation * Math.PI / 180));
-        var projectedY = this.posY + (mvSpeed * Math.sin(this.rotation * Math.PI / 180));
+        var projectedX = this.posX + (mvSpeed * Math.cos(this.targetRotation * Math.PI / 180));
+        var projectedY = this.posY + (mvSpeed * Math.sin(this.targetRotation * Math.PI / 180));
 
         if (projectedX < 0 || projectedY < 0 || projectedX > this.map.widthPx || projectedY > this.map.heightPx) {
             return false;

@@ -6,5 +6,5 @@ var Settings = {
     // Debug toggles
     DebugSkipBootLogo: true,
     drawCollisions: false,
-    DebugQuickLogin: true
+    DebugQuickLogin: false
 };

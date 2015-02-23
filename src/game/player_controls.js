@@ -37,6 +37,8 @@ var PlayerControls = {
             player.rotation -= 360;
         }
 
+        player.targetRotation = player.rotation;
+
         if (keyForward) {
             if (!player.moving && player.canMoveInCurrentDirection()) {
                 player.moving = true;
