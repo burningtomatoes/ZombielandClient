@@ -14,8 +14,12 @@ var Entity = Class.extend({
     posX: 32,
     posY: 32,
 
-    height: 32,
-    width: 16,
+    width: 24,
+    height: 40,
+
+    widthHead: 21,
+    heightHead: 23,
+
     rotation: 0,
 
     moving: false,
@@ -25,8 +29,16 @@ var Entity = Class.extend({
     speedRunning: 4,
     speedRotate: 5,
 
-    init: function () {
+    imgHead: null,
+    imgBody: null,
 
+    headBobTimer: 0,
+    headBob: 0,
+
+    init: function () {
+        this.imgBody = Game.images.load('body_2.png');
+        this.imgHead = Game.images.load('head_z_1.png');
+        this.rotation = 270;
     },
 
     update: function () {
@@ -43,6 +55,19 @@ var Entity = Class.extend({
 
             this.posX += mvSpeed * Math.cos(this.rotation * Math.PI / 180);
             this.posY += mvSpeed * Math.sin(this.rotation * Math.PI / 180);
+        }
+
+        if (this.moving) {
+            if (this.headBobTimer > 0) {
+                this.headBobTimer--;
+            }
+
+            if (this.headBobTimer <= 0) {
+                this.headBob = (this.headBob == 1 ? -1 : 1);
+                this.headBobTimer = 15;
+            }
+        } else {
+            this.headBob = 0;
         }
     },
 
@@ -66,11 +91,20 @@ var Entity = Class.extend({
         ctx.translate(-centerX, -centerY);
 
         // Step 3: Draw entity
-        ctx.beginPath();
-        ctx.rect(0, 0, this.width, this.height);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.closePath();
+        if (this.imgBody == null) {
+            ctx.beginPath();
+            ctx.rect(0, 0, this.width, this.height);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.closePath();
+        } else {
+            ctx.drawImage(this.imgBody, 0, 0, this.width, this.height, 0, Math.round(this.headBob / 2), this.width, this.height);
+        }
+
+        if (this.imgHead != null) {
+            ctx.drawImage(this.imgHead, 0, 0, this.widthHead, this.heightHead, 6, Math.round((this.height / 2) - (this.heightHead / 2) - (this.headBob / 2)), this.widthHead, this.heightHead);
+        }
+
 
         ctx.restore();
 
