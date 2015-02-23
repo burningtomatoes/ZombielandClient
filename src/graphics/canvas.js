@@ -51,7 +51,7 @@ var Canvas = {
     },
 
     clear: function () {
-        this.context.fillStyle = '#637FBF';
+        this.context.fillStyle = '#000000';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 };

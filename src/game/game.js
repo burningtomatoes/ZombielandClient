@@ -61,14 +61,17 @@ var Game = {
 
         this.loading = true;
 
+        Chat.hide();
+
         console.info('[Map] Loading map ' + mapId + '...');
 
         var beginLoad = function () {
             this.map = this.maps.load(mapId + '.json');
-            this.map.onLoadComplete = function (success) {
+
+            var loadCallback = function (success) {
                 if (success) {
                     console.info('[Map] Map loaded successfully.');
-                    this.$game.fadeIn(500);
+                    this.$game.fadeIn(200);
                     this.loading = false;
 
                     if (!Session.isLoggedIn()) {
@@ -83,10 +86,17 @@ var Game = {
                     }
                 }
             }.bind(this);
+
+            if (this.map.fullyLoaded) {
+                loadCallback(true);
+            } else {
+                this.map.onLoadComplete = loadCallback;
+            }
+
         }.bind(this);
 
         if (this.$game.is(':visible')) {
-            this.$game.fadeOut(500, beginLoad);
+            this.$game.stop().fadeOut(200, beginLoad);
         } else {
             beginLoad();
         }

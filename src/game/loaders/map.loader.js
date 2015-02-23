@@ -13,7 +13,6 @@ var MapLoader = Loader.extend({
 
     innerLoad: function (filename) {
         var map = new Map();
-        map.onLoadComplete = function () { };
 
         var configureMap = function (data) {
             map.data = data;
@@ -33,13 +32,13 @@ var MapLoader = Loader.extend({
             var tilesetSrc = data.tilesets[0].image;
             tilesetSrc = tilesetSrc.replace('../images/', '');
             map.tileset = Game.images.load(tilesetSrc);
-
             map.tilesPerRow = data.tilesets[0].imagewidth / Settings.TileSize;
         };
 
         $.get('assets/maps/' + filename)
         .success(function(data) {
             configureMap(data);
+            map.fullyLoaded = true;
             map.onLoadComplete(true);
         })
         .error(function() {

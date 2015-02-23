@@ -3,6 +3,9 @@ var Map = Class.extend({
     name: '',
     isMap: true,
 
+    onLoadComplete: null,
+    fullyLoaded: false,
+
     data: { },
     layers: [ ],
 
@@ -28,6 +31,8 @@ var Map = Class.extend({
         this.heightPx = 0;
         this.name = '???';
         this.tilesPerRow = 0;
+        this.onLoadComplete = null;
+        this.fullyLoaded = false;
 
         this.clear();
     },
