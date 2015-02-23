@@ -24,6 +24,7 @@ var Game = {
         Canvas.init();
         Keyboard.bind();
         Net.init();
+        Chat.init();
 
         this.images = new ImageLoader();
         this.audio = new AudioLoader();
@@ -43,6 +44,8 @@ var Game = {
 
     start: function () {
         this.clear();
+
+        Chat.hide();
 
         BootLogo.show(function () {
             this.loadMap(Settings.TitleMap);
@@ -70,6 +73,8 @@ var Game = {
 
                     if (!Session.isLoggedIn()) {
                         this.showLogin();
+                    } else {
+                        Chat.show();
                     }
                 } else {
                     if (mapId !== Settings.TitleMap) {
@@ -107,6 +112,7 @@ var Game = {
             return;
         }
 
+        Chat.update();
         Camera.update();
         Keyboard.update();
 

@@ -61,6 +61,7 @@ var Login = Dialog.extend({
         Router.register(Opcodes.LOGIN_COMPLETE, function (data) {
             Session.setStateObject(data.user);
             this.hide();
+            Chat.show();
         }.bind(this));
 
         // Send login / register request to the server, and await a response...

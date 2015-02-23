@@ -156,6 +156,52 @@ button.form-control {
   color: red;
 }
 
+/// UI: Chat ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#chat {
+  z-index: 1000;
+  position: fixed;
+  left: 15px;
+  bottom: 15px;
+  width: 100%;
+  max-width: 450px;
+  text-align: left;
+
+  .message {
+    width: 100%;
+    padding: 5px;
+    text-shadow: 1px 1px 0 #000;
+    word-wrap: break-word;
+
+    .name {
+      color: yellow;
+    }
+  }
+
+  .input {
+    height: 34px;
+    vertical-align: middle;
+
+    img {
+      float: left;
+      width: 32px;
+      margin-top: 15px;
+      margin-right: 10px;
+    }
+
+    .form-control {
+      float: left;
+      width: 90%;
+      height: 34px;
+
+      &.inactive {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 /// UI: Net status /////////////////////////////////////////////////////////////////////////////////////////////////////
 #net-status {
   z-index: 1000;

@@ -5,6 +5,10 @@ var PlayerControls = {
     FRAMES_PER_UPDATE: 5,
 
     update: function () {
+        if (Chat.isActive) {
+            return;
+        }
+
         var player = Session.getEntity();
 
         if (player == null) {
