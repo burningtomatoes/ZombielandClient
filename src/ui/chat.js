@@ -32,7 +32,6 @@ var Chat = {
         }.bind(this));
 
         this.$input.keydown(function (e) {
-            console.log(e.keyCode);
             if (e.keyCode == KeyCode.RETURN) {
                 this.sendMessage();
                 this.$input.val('');
