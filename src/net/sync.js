@@ -57,6 +57,7 @@ var Sync = {
         e.receivesCollision = true;
         e.posX = remoteData.pX;
         e.posY = remoteData.pY;
+        e.name = remoteData.nm;
 
         if (isNew) {
             Game.map.add(e);

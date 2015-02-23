@@ -3,6 +3,8 @@ var Entity = Class.extend({
     isZombie: false,
     isPlayer: false,
 
+    name: '???',
+
     causesCollision: true,
     receivesCollision: false,
 
@@ -63,7 +65,7 @@ var Entity = Class.extend({
         // Step 2: De-translate
         ctx.translate(-centerX, -centerY);
 
-        // Step 3: Draw
+        // Step 3: Draw entity
         ctx.beginPath();
         ctx.rect(0, 0, this.width, this.height);
         ctx.fillStyle = 'red';
@@ -71,6 +73,17 @@ var Entity = Class.extend({
         ctx.closePath();
 
         ctx.restore();
+
+        // Step 4: Entity name
+        ctx.font="8px Pixelmix";
+
+        destX += (this.width / 2) - (ctx.measureText(this.name).width / 2);
+        destY -= 5;
+
+        ctx.fillStyle = '#000';
+        ctx.fillText(this.name, destX + 1, destY + 1);
+        ctx.fillStyle = '#fff';
+        ctx.fillText(this.name, destX, destY);
     },
 
     isLocalPlayer: function () {
