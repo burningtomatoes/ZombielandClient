@@ -12,7 +12,9 @@ var Entity = Class.extend({
     remoteUid: 0,
 
     posX: 32,
+    targetPosX: 32,
     posY: 32,
+    targetPosY: 32,
 
     width: 24,
     height: 40,
@@ -51,8 +53,18 @@ var Entity = Class.extend({
             this.rotation -= 360;
         }
 
-        if (!this.isLocalPlayer() && this.rotation != this.targetRotation) {
-            this.rotation = MathHelper.lerpAngle(this.rotation, this.targetRotation, 0.2);
+        if (!this.isLocalPlayer()) {
+            if (this.rotation != this.targetRotation) {
+                this.rotation = MathHelper.lerpAngle(this.rotation, this.targetRotation, 0.2);
+            }
+
+            if (this.posX != this.targetPosX) {
+                this.posX = MathHelper.lerp(this.posX, this.targetPosX, 0.2);
+            }
+
+            if (this.posY != this.targetPosY) {
+                this.posY = MathHelper.lerp(this.posY, this.targetPosY, 0.2);
+            }
         }
 
         if (this.moving) {
@@ -62,8 +74,13 @@ var Entity = Class.extend({
             } else {
                 var mvSpeed = this.running ? this.speedRunning : this.speedWalking;
 
-                this.posX += mvSpeed * Math.cos(this.targetRotation * Math.PI / 180);
-                this.posY += mvSpeed * Math.sin(this.targetRotation * Math.PI / 180);
+                var xChange = mvSpeed * Math.cos(this.targetRotation * Math.PI / 180);
+                var yChange = mvSpeed * Math.sin(this.targetRotation * Math.PI / 180);
+
+                this.posX += xChange;
+                this.targetPosX += xChange;
+                this.posY += yChange;
+                this.targetPosY += yChange;
             }
         }
 

@@ -29,8 +29,8 @@ var Sync = {
             return;
         }
 
-        entity.posX = data.x;
-        entity.posY = data.y;
+        entity.targetPosX = data.x;
+        entity.targetPosY = data.y;
         entity.moving = data.m;
         entity.targetRotation = data.r;
     },
@@ -57,6 +57,10 @@ var Sync = {
         e.receivesCollision = true;
         e.posX = remoteData.pX;
         e.posY = remoteData.pY;
+        e.targetPosX = e.posX;
+        e.targetPosY = e.posY;
+        e.rotation = remoteData.pR;
+        e.targetRotation = e.rotation;
         e.name = remoteData.nm;
 
         if (isNew) {
