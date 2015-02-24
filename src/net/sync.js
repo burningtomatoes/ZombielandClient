@@ -65,6 +65,8 @@ var Sync = {
         e.healthCurrent = remoteData.hc;
         e.healthMax = remoteData.hm;
 
+        e.setLook(remoteData.oh, remoteData.ob);
+
         if (isNew) {
             Game.map.add(e);
         }

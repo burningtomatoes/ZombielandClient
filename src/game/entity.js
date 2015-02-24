@@ -38,10 +38,24 @@ var Entity = Class.extend({
     headBobTimer: 0,
     headBob: 0,
 
+    weapon: null,
+    weaponImg: null,
+
     init: function () {
-        this.imgBody = Game.images.load('body_2.png');
-        this.imgHead = Game.images.load('head_z_1.png');
         this.rotation = 270;
+
+        this.setLook('1', '1');
+        this.setWeapon('knife');
+    },
+
+    setWeapon: function (id) {
+        this.weapon = window.weapons[id];
+        this.weaponImg = Game.images.load('wp_' + this.weapon.id + '.png');
+    },
+
+    setLook: function (head, body) {
+        this.imgHead = Game.images.load('head_' + head + '.png');
+        this.imgBody = Game.images.load('body_' + body + '.png');
     },
 
     update: function () {
@@ -118,6 +132,10 @@ var Entity = Class.extend({
         ctx.translate(-centerX, -centerY);
 
         // Step 3: Draw entity
+        if (this.weapon != null && this.weaponImg != null) {
+            ctx.drawImage(this.weaponImg, 0, 0, this.weaponImg.width, this.weaponImg.height, 19, 3, this.weaponImg.width, this.weaponImg.height);
+        }
+
         if (this.imgBody == null) {
             ctx.beginPath();
             ctx.rect(0, 0, this.width, this.height);
