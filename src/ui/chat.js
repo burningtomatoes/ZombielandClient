@@ -35,6 +35,7 @@ var Chat = {
             if (e.keyCode == KeyCode.RETURN) {
                 this.sendMessage();
                 this.$input.val('');
+                window.setTimeout("Chat.$input.blur();", 10);
             } else if (e.keyCode == KeyCode.ESCAPE) {
                 this.$input.blur();
             }
