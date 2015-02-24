@@ -121,7 +121,6 @@ var Map = Class.extend({
             var theirRect = entity.getRect();
 
             if (Utils.rectIntersects(ourRect, theirRect)) {
-                console.log(ignoreEntity + ' collides ' + entity);
                 return true;
             }
         }
