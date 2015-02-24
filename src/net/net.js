@@ -67,6 +67,8 @@ var Net = {
         this.connected = false;
         this.playerCountReceived = false;
 
+        Session.setStateObject(null);
+
         if (wasConnected) {
             // If we were connected, restart the entire game
             Game.start();

@@ -24,31 +24,39 @@ var Game = {
         Canvas.init();
         Keyboard.bind();
         Net.init();
+
         Chat.init();
+        Hud.init();
 
         this.images = new ImageLoader();
         this.audio = new AudioLoader();
         this.maps = new MapLoader();
 
         this.$game = $('#game');
+
+        Session.setStateObject(null);
+
+        Router.register(Opcodes.LOAD_MAP, function (data) {
+            this.loadMap(data.m);
+        }.bind(this));
     },
 
-    clear: function () {
-        this.$game.hide();
+    clear: function (cb) {
+        this.$game.stop().hide();
+
         this.started = false;
         this.loading = false;
         this.map = null;
-
-        Session.setStateObject(null);
     },
 
-    start: function () {
+    start: function (mapId) {
         this.clear();
 
+        Hud.hide();
         Chat.hide();
 
         BootLogo.show(function () {
-            this.loadMap(Settings.TitleMap);
+            this.loadMap(mapId);
         }.bind(this));
     },
 
@@ -62,6 +70,7 @@ var Game = {
         this.loading = true;
 
         Chat.hide();
+        Hud.hide();
 
         console.info('[Map] Loading map ' + mapId + '...');
 
@@ -76,8 +85,13 @@ var Game = {
 
                     if (!Session.isLoggedIn()) {
                         this.showLogin();
-                    } else {
-                        Chat.show();
+                    }
+
+                    if (Net.connected) {
+                        Net.sendData({
+                            op: Opcodes.MAP_LOADED,
+                            m: mapId
+                        });
                     }
                 } else {
                     if (mapId !== Settings.TitleMap) {
@@ -100,6 +114,15 @@ var Game = {
         } else {
             beginLoad();
         }
+    },
+
+    onMapNetworkLoaded: function () {
+        Hud.show();
+        Chat.show();
+    },
+
+    onLoginComplete: function () {
+        Game.clear();
     },
 
     showLogin: function () {

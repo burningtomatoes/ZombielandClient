@@ -1,4 +1,4 @@
 $(document).ready(function() {
     Game.init();
-    Game.start();
+    Game.start(Settings.TitleMap);
 });

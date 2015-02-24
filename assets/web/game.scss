@@ -156,6 +156,48 @@ button.form-control {
   color: red;
 }
 
+/// UI: Hud ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#hud {
+  position: fixed;
+  z-index: 1000;
+  left: 15px;
+  top: 15px;
+
+  .health {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    width: 250px;
+    position: relative;
+    height: 32px;
+    line-height: 32px;
+
+    .icon {
+      float: left;
+      display: block;
+    }
+
+    .text {
+      position: absolute;
+      right: 15px;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      line-height: 32px;
+      width: 100px;
+      text-align: right;
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
 /// UI: Chat ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #chat {
   z-index: 1000;

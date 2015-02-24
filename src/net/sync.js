@@ -62,6 +62,8 @@ var Sync = {
         e.rotation = remoteData.pR;
         e.targetRotation = e.rotation;
         e.name = remoteData.nm;
+        e.healthCurrent = remoteData.hc;
+        e.healthMax = remoteData.hm;
 
         if (isNew) {
             Game.map.add(e);
@@ -113,5 +115,7 @@ var Sync = {
         for (var i = 0; i < data.e.length; i++) {
             this.configureEntity(null, data.e[i]);
         }
+
+        Game.onMapNetworkLoaded();
     }
 };
