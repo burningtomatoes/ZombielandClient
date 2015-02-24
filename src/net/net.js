@@ -71,7 +71,7 @@ var Net = {
 
         if (wasConnected) {
             // If we were connected, restart the entire game
-            Game.start();
+            Game.start(Settings.TitleMap);
         }
 
         if (this.retryTimeout != null) {
