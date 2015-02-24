@@ -5,10 +5,6 @@ var PlayerControls = {
     FRAMES_PER_UPDATE: 5,
 
     update: function () {
-        if (Chat.isActive) {
-            return;
-        }
-
         var player = Session.getEntity();
 
         if (player == null) {
@@ -20,13 +16,15 @@ var PlayerControls = {
         var keyForward = Keyboard.isKeyDown(KeyCode.UP) || Keyboard.isKeyDown(KeyCode.W);
         var keyBackward = Keyboard.isKeyDown(KeyCode.DOWN) || Keyboard.isKeyDown(KeyCode.S);
 
-        if (keyLeft) {
-            player.rotation -= player.speedRotate;
-            this.needsUpdate = true;
-        }
-        if (keyRight) {
-            player.rotation += player.speedRotate;
-            this.needsUpdate = true;
+        if (!Chat.isActive) {
+            if (keyLeft) {
+                player.rotation -= player.speedRotate;
+                this.needsUpdate = true;
+            }
+            if (keyRight) {
+                player.rotation += player.speedRotate;
+                this.needsUpdate = true;
+            }
         }
 
         if (player.rotation < 0) {
@@ -41,7 +39,7 @@ var PlayerControls = {
         player.targetPosY = player.posY;
         player.targetRotation = player.rotation;
 
-        if (keyForward) {
+        if (keyForward && !Chat.isActive) {
             if (!player.moving && player.canMoveInCurrentDirection()) {
                 player.moving = true;
                 this.needsUpdate = true;
