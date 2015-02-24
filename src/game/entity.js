@@ -210,7 +210,6 @@ var Entity = Class.extend({
         };
         rect.bottom = rect.top + rect.height;
         rect.right = rect.left + rect.width;
-        // TODO Specific collision masks for left/right directions?
         return rect;
     },
 
