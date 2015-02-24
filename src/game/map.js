@@ -189,6 +189,19 @@ var Map = Class.extend({
             }
         }
 
+        // Draw all character names on top
+        {
+            for (var j = 0; j < this.entities.length; j++) {
+                var entity = this.entities[j];
+
+                if (!entity.isCharacter) {
+                    continue;
+                }
+
+                entity.drawName(ctx);
+            }
+        }
+
         this.drawFog(ctx);
     },
 

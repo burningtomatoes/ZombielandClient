@@ -156,9 +156,13 @@ var Entity = Class.extend({
             ctx.stroke();
             ctx.closePath();
         }
+    },
 
-        // Step 4: Entity name
+    drawName: function (ctx) {
         ctx.font="8px Pixelmix";
+
+        var destX = Camera.translateX(this.posX);
+        var destY = Camera.translateY(this.posY);
 
         destX += (this.width / 2) - (ctx.measureText(this.name).width / 2);
         destY -= 5;
