@@ -4,7 +4,7 @@ var Settings = {
     TitleMap: 'streets_1',
     TileSize: 32,
     // Debug toggles
-    DebugSkipBootLogo: true,
+    DebugSkipBootLogo: false,
     drawCollisions: false,
     DebugQuickLogin: false
 };
