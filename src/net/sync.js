@@ -25,7 +25,7 @@ var Sync = {
 
         var entity = Game.map.getEntityById(data.i);
 
-        if (entity == null) {
+        if (entity == null || entity.isLocalPlayer()) {
             return;
         }
 

@@ -238,8 +238,8 @@ var Entity = Class.extend({
 
     canMoveInCurrentDirection: function () {
         var mvSpeed = this.speedWalking;
-        var projectedX = this.posX + ((mvSpeed * Math.cos(this.targetRotation * Math.PI / 180)) * 2);
-        var projectedY = this.posY + ((mvSpeed * Math.sin(this.targetRotation * Math.PI / 180)) * 2);
+        var projectedX = this.posX + (mvSpeed * Math.cos(this.targetRotation * Math.PI / 180));
+        var projectedY = this.posY + (mvSpeed * Math.sin(this.targetRotation * Math.PI / 180));
 
         if (projectedX < 0 || projectedY < 0 || projectedX > this.map.widthPx || projectedY > this.map.heightPx) {
             return false;
