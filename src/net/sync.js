@@ -11,6 +11,26 @@ var Sync = {
         Router.register(Opcodes.ENTITY_REMOVE, this.handleEntityRemove.bind(this));
         Router.register(Opcodes.SERVER_MOVE_UPDATE, this.handleEntityMove.bind(this));
         //Router.register(Opcodes.ENTITY_TELEPORT, this.handleEntityTeleport.bind(this));
+        Router.register(Opcodes.SERVER_ATTACK, this.handleEntityAttack.bind(this));
+    },
+
+    /**
+     * Reads and applies an attack update from the server.
+     *
+     * @param data Remote payload
+     */
+    handleEntityAttack: function (data) {
+        if (Game.map == null || Game.loading) {
+            return;
+        }
+
+        var entity = Game.map.getEntityById(data.i);
+
+        if (entity == null || entity.isLocalPlayer()) {
+            return;
+        }
+
+        entity.doAttack();
     },
 
     /**

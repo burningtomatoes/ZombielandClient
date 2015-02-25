@@ -54,10 +54,13 @@ var PlayerControls = {
             }
         }
 
-        console.log(keyAttack);
-
         if (keyAttack && player.weapon != null && player.attackAnimation <= 0) {
             player.doAttack();
+
+            Net.sendData({
+                op: Opcodes.CLIENT_ATTACK,
+                i: player.id
+            });
         }
 
         if (this.frameCountdown > 0) {
