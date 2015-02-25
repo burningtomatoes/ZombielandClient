@@ -45,7 +45,7 @@ var Entity = Class.extend({
         this.rotation = 270;
 
         this.setLook('1', '1');
-        this.setWeapon('knife');
+        this.setWeapon('zombie');
     },
 
     setWeapon: function (id) {
