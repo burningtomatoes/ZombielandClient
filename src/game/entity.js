@@ -117,9 +117,25 @@ var Entity = Class.extend({
         } else {
             this.headBob = 0;
         }
+
+        if (this.damageFlash > 0) {
+            this.damageFlash--;
+        }
     },
 
     draw: function (ctx) {
+        if (this.damageFlash > 0) {
+            if (this.isLocalPlayer()) {
+                var grd = ctx.createRadialGradient(Canvas.canvas.width / 2, Canvas.canvas.height / 2, Canvas.canvas.height / 4, Canvas.canvas.width / 2, Canvas.canvas.height / 2, Canvas.canvas.height / 2);
+                grd.addColorStop(0, "rgba(0, 0, 0, 0)");
+                grd.addColorStop(1, "rgba(255, 0, 0, 0.2)");
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
+            }
+
+            return;
+        }
+
         var destX = Camera.translateX(this.posX);
         var destY = Camera.translateY(this.posY);
 
@@ -264,5 +280,11 @@ var Entity = Class.extend({
         }
 
         return true;
+    },
+
+    applyDamage: function (dmg) {
+        this.lastDamage = dmg;
+        this.damageFlash = 6;
+        this.healthCurrent -= dmg;
     }
 });

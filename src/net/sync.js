@@ -12,10 +12,36 @@ var Sync = {
         Router.register(Opcodes.SERVER_MOVE_UPDATE, this.handleEntityMove.bind(this));
         //Router.register(Opcodes.ENTITY_TELEPORT, this.handleEntityTeleport.bind(this));
         Router.register(Opcodes.SERVER_ATTACK, this.handleEntityAttack.bind(this));
+        Router.register(Opcodes.DAMAGE_ENTITY, this.handleEntityDamage.bind(this));
     },
 
     /**
-     * Reads and applies an attack update from the server.
+     * Reads and applies an entity damage event from the server.
+     *
+     * @param data Remote payload
+     */
+    handleEntityDamage: function (data) {
+        if (Game.map == null || Game.loading) {
+            return;
+        }
+
+        var entity = Game.map.getEntityById(data.i);
+
+        if (entity == null) {
+            return;
+        }
+
+        entity.applyDamage(data.d);
+        entity.healthCurrent = data.c;
+        entity.healthMax = data.m;
+
+        if (entity.isLocalPlayer()) {
+            Hud.updateHud();
+        }
+    },
+
+    /**
+     * Reads and applies an attack event from the server.
      *
      * @param data Remote payload
      */
@@ -91,6 +117,10 @@ var Sync = {
 
         if (isNew) {
             Game.map.add(e);
+        }
+
+        if (e.isLocalPlayer()) {
+            Hud.updateHud();
         }
     },
 
