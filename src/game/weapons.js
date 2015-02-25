@@ -3,11 +3,13 @@ window.weapons = { };
 window.weapons.knife = {
     id: 'knife',
     name: 'Knife',
-    type: 'melee'
+    type: 'melee',
+    firearm: false
 };
 
 window.weapons.zombie = {
     id: 'zombie',
     name: 'Zombie Arms',
-    type: 'zombie'
+    type: 'zombie',
+    firearm: false
 };

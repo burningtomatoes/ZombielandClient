@@ -147,10 +147,11 @@ var Game = {
 
         Chat.update();
         Camera.update();
-        Keyboard.update();
 
         if (!this.loading && this.map != null) {
             this.map.update();
         }
+
+        Keyboard.update();
     }
 };

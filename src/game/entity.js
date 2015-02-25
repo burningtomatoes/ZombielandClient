@@ -41,6 +41,8 @@ var Entity = Class.extend({
     weapon: null,
     weaponImg: null,
 
+    attackAnimation: 0,
+
     init: function () {
         this.rotation = 270;
 
@@ -138,7 +140,7 @@ var Entity = Class.extend({
 
         // Step 3: Draw entity
         if (this.weapon != null && this.weaponImg != null) {
-            ctx.drawImage(this.weaponImg, 0, 0, this.weaponImg.width, this.weaponImg.height, 19, 3, this.weaponImg.width, this.weaponImg.height);
+            ctx.drawImage(this.weaponImg, 0, 0, this.weaponImg.width, this.weaponImg.height, 19, 3 + this.attackAnimation, this.weaponImg.width, this.weaponImg.height);
         }
 
         if (this.imgBody == null) {
@@ -178,6 +180,10 @@ var Entity = Class.extend({
             ctx.strokeStyle = "#AACCFF";
             ctx.stroke();
             ctx.closePath();
+        }
+
+        if (this.attackAnimation > 0) {
+            this.attackAnimation--;
         }
     },
 
@@ -234,6 +240,12 @@ var Entity = Class.extend({
         rect.bottom = rect.top + rect.height;
         rect.right = rect.left + rect.width;
         return rect;
+    },
+
+    doAttack: function () {
+        if (!this.weapon.firearm) {
+           this.attackAnimation = 10;
+        }
     },
 
     canMoveInCurrentDirection: function () {

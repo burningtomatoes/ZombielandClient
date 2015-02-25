@@ -15,6 +15,7 @@ var PlayerControls = {
         var keyRight = Keyboard.isKeyDown(KeyCode.RIGHT) || Keyboard.isKeyDown(KeyCode.D);
         var keyForward = Keyboard.isKeyDown(KeyCode.UP) || Keyboard.isKeyDown(KeyCode.W);
         var keyBackward = Keyboard.isKeyDown(KeyCode.DOWN) || Keyboard.isKeyDown(KeyCode.S);
+        var keyAttack = Keyboard.wasKeyPressed(KeyCode.SPACE);
 
         if (!Chat.isActive) {
             if (keyLeft) {
@@ -51,6 +52,12 @@ var PlayerControls = {
                 this.needsUpdate = true;
                 this.frameCountdown = 0; // force sync b/c of state change
             }
+        }
+
+        console.log(keyAttack);
+
+        if (keyAttack && player.weapon != null && player.attackAnimation <= 0) {
+            player.doAttack();
         }
 
         if (this.frameCountdown > 0) {
