@@ -109,21 +109,21 @@ var Map = Class.extend({
             }
         }
 
-        var entitiesLength = this.entities.length;
-
-        for (var k = 0; k < entitiesLength; k++) {
-            var entity = this.entities[k];
-
-            if (!entity.causesCollision || entity === ignoreEntity) {
-                continue;
-            }
-
-            var theirRect = entity.getRect();
-
-            if (Utils.rectIntersects(ourRect, theirRect)) {
-                return true;
-            }
-        }
+        //var entitiesLength = this.entities.length;
+        //
+        //for (var k = 0; k < entitiesLength; k++) {
+        //    var entity = this.entities[k];
+        //
+        //    if (!entity.causesCollision || entity === ignoreEntity) {
+        //        continue;
+        //    }
+        //
+        //    var theirRect = entity.getRect();
+        //
+        //    if (Utils.rectIntersects(ourRect, theirRect)) {
+        //        return true;
+        //    }
+        //}
 
         return false;
     },
