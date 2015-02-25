@@ -64,6 +64,7 @@ var Sync = {
         e.name = remoteData.nm;
         e.healthCurrent = remoteData.hc;
         e.healthMax = remoteData.hm;
+        e.setWeapon(remoteData.wp);
 
         e.setLook(remoteData.oh, remoteData.ob);
 

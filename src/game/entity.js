@@ -45,10 +45,15 @@ var Entity = Class.extend({
         this.rotation = 270;
 
         this.setLook('1', '1');
-        this.setWeapon('zombie');
     },
 
     setWeapon: function (id) {
+        if (id == null) {
+            this.weapon = null;
+            this.weaponImg = null;
+            return;
+        }
+
         this.weapon = window.weapons[id];
         this.weaponImg = Game.images.load('wp_' + this.weapon.id + '.png');
     },
